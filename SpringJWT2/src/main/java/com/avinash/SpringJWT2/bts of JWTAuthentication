@@ -1,0 +1,80 @@
+//What is Encryption and Decryption
+Encryption and Decryption belongs to the Cryptography
+Encryption means conversion of basic readable text into the cipher text
+Decryption means conversion of cipher text into its original readable format
+in Encryption and Decryption there are two ways 1. Symmetric Encryption 2. Asymmetric Encryption
+
+//Symmetric Encryption
+In symmetric encryption, the user contains only one key, that key is exchanged between two users to communicate
+consider two users A and B, where A and B wants to text in the snapchat
+when A sends the msg to the B, in between the msg will be encrypted with the key
+that key will be same for the both users and it will validate only for those two users A and B
+if A wants to chat with C then another key is used, hence a key is unique between to users only
+when A send the text to B, the text will be encrypted and the text needs to be decrypted with the help of key
+
+//Asymmetric Encryption
+in Asymmetric Encryption, each user will have two keys, 1. public key 2. private key
+public key means, if there is a group of people, then the key will be known to each person
+private key means it is only known to the user, other persons cant know it
+in Asymmetric Encryption if we encrypt the text with public key, then we must decrypt it with the private key and vice versa
+in Asymmetric Encryption, there is no conformation that the msg received is from original sender, the msg may get changed by third person in between
+so to avoid this we will use Digital Signature
+Digital Signature is cryptographic mechanism used to ensure the authenticity and integrity of a message, document, or piece of data.
+It is a crucial component of asymmetric encryption (also known as public-key cryptography), which relies on a pair of keys: a private key and a public key.
+Steps involved in the Digital Signature are
+1. Hashing the message
+2. Signing the Hash
+3. Sending the Message and Signature
+4. Verifying the Signature (occurs at the receiver side)
+/Hashing
+Hashing is the process of converting an input (or message) into a fixed-length string of bytes using a hash function.
+The output, called the hash value or digest, is typically unique to each unique input
+lets look at the process
+When User A wants to send a msg to User B, the message will be hashed by algorithms
+then the hashed value will be encrypted with the A's private key, then encrypted with B's public key
+now to decrypt the msg, we need A's public key and B's private key
+when it is decrypted, we will get the hashed message sent by the User A
+the received Hash and sent hash is compared, if they are matched by using algorithm we will convert the hashed message to original form
+encrypting the hashed msg with senders private key is known as Digital Signature
+for Confidentiality we will encrypt the hashed msg with the receiver's public key also
+In asymmetric encryption
+Confidentiality: Encrypt the message with the recipient's public key.
+Authenticity and Integrity: Sign the hash of the message with the sender's private key (digital signature).
+//chat gpt example
+Hashing the Message:
+
+Original Message: "Transaction Amount: $1000"
+Hash Function (e.g., SHA-256): Hash("Transaction Amount: $1000") = e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+Creating Digital Signature:
+
+Private Key: Sender's private key Ks
+Digital Signature: Sign(Ks, e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855)
+Sending:
+
+Sender sends the original message and the digital signature.
+Verifying Digital Signature:
+
+Public Key: Sender's public key Kp
+Received Message: "Transaction Amount: $1000"
+Received Signature: Sign(Ks, e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855)
+Hashing Received Message: Hash("Transaction Amount: $1000") = e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+Decrypting Signature: Decrypt(Kp, Sign(Ks, e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855)) = e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+Comparing Hashes: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 == e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+// now here we want to create our custom login
+when ever we login, we must generate a JWT token and send to the client
+after receiving the Token, the token is used for authentication
+so we must generate a JWT token after logging in
+for that we need to create a JWTService, and in that method we nwwd to generate the token for each username
+for doing this we need multiple dependencies, jwt-api, jwt-impl and we need jwt-jackson to convert the jwt into json
+
+//JWT tokent structure
+JWT consists three components 1. Header 2. Payload 3. Signature
+Payload consists the claims
+claims means key value pair of information about the user to authenticate
+
+//in generating jwt token process we need to sign the token with key
+we must generate that token
+1st we need to get KeyGenerator instance for using algorithms
+later we need to generate the key and then we need to convert the key into byte code
+when ever we need key, we will decrypt the key into original format
